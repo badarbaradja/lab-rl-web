@@ -48,7 +48,7 @@ const dictionary = {
     // --- HALAMAN JADWAL ---
     schedule_title: "Timeline Praktikum",
     schedule_desc: "Jadwal kegiatan praktikum Laboratorium Rangkaian Listrik Periode 2025.",
-    schedule_tab_te: "Teknik Elektro (12 Minggu)",
+    schedule_tab_te: "Teknik Elektro (12 Modul)",
     schedule_tab_fte: "FTE Lainnya (6 Modul)",
     schedule_type_event: "Event",
     schedule_type_practicum: "Praktikum",
@@ -140,7 +140,7 @@ const dictionary = {
     // --- SCHEDULE PAGE ---
     schedule_title: "Practicum Timeline",
     schedule_desc: "Schedule of Electrical Circuit Laboratory practicum activities for 2025.",
-    schedule_tab_te: "Electrical Eng. (12 Weeks)",
+    schedule_tab_te: "Electrical Eng. (12 Modules)",
     schedule_tab_fte: "Other FTE (6 Modules)",
     schedule_type_event: "Event",
     schedule_type_practicum: "Practicum",
@@ -232,7 +232,7 @@ const dictionary = {
     // --- SCHEDULE PAGE ---
     schedule_title: "الجدول الزمني",
     schedule_desc: "جدول أنشطة العملي لمختبر الدوائر الكهربائية لعام 2025.",
-    schedule_tab_te: "هندسة كهربائية (12 أسبوع)",
+    schedule_tab_te: "هندسة كهربائية (12 وحدات)",
     schedule_tab_fte: "تخصصات أخرى (6 وحدات)",
     schedule_type_event: "حدث",
     schedule_type_practicum: "عملي",
