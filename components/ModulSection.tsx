@@ -3,12 +3,11 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { BookOpen, FileText, PenTool, PlayCircle, ArrowRight } from "lucide-react";
-import { useLanguage } from "@/context/LanguageContext"; // Import Hook Bahasa
+import { useLanguage } from "@/context/LanguageContext"; 
 
 export default function MenuGrid() {
-  const { t } = useLanguage(); // Ambil kamus bahasa (t)
+  const { t } = useLanguage(); 
 
-  // Definisikan menu di dalam komponen agar bisa akses 't'
   const menus = [
     {
       title: t.menu_tata_tertib,
@@ -38,7 +37,10 @@ export default function MenuGrid() {
       title: t.menu_video,
       desc: t.menu_video_desc,
       icon: PlayCircle,
-      href: "https://www.youtube.com/@laboratoriumrangkaianlistr1117",
+      // PERBAIKAN DI SINI:
+      // Dulu: "https://www.youtube.com/..." (Link Luar)
+      // Sekarang: "/video-pembelajaran" (Halaman Internal Kita)
+      href: "/video-pembelajaran", 
       color: "bg-red-600",
       gradient: "from-red-600 to-rose-500"
     },
@@ -51,10 +53,10 @@ export default function MenuGrid() {
         {/* Title */}
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-rl-navy dark:text-white mb-2">
-            {t.menu_title} {/* Judul Dinamis */}
+            {t.menu_title}
           </h2>
           <p className="text-gray-500 dark:text-gray-400">
-            {t.menu_subtitle} {/* Deskripsi Dinamis */}
+            {t.menu_subtitle}
           </p>
         </div>
 
@@ -87,9 +89,9 @@ export default function MenuGrid() {
                 </p>
 
                 {/* Arrow Bottom */}
-                <div className="absolute bottom-6 right-6 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 rtl:right-auto rtl:left-6 rtl:translate-x-2"> {/* Support RTL untuk bahasa Arab */}
+                <div className="absolute bottom-6 right-6 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 rtl:right-auto rtl:left-6 rtl:translate-x-2"> 
                   <div className={`p-2 rounded-full ${item.color} text-white`}>
-                    <ArrowRight size={16} className="rtl:rotate-180" /> {/* Panah berbalik jika Arab */}
+                    <ArrowRight size={16} className="rtl:rotate-180" />
                   </div>
                 </div>
 

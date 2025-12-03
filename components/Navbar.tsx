@@ -60,7 +60,7 @@ export default function Navbar() {
           </div>
           <div className="flex flex-col">
             <span className="text-lg font-bold text-rl-navy dark:text-white leading-none">
-              LAB Rangkaian Listrik
+              Rangkaian Listrik
             </span>
             <span className="text-[10px] text-rl-red font-bold tracking-widest">
               TELKOM UNIVERSITY

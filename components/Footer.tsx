@@ -26,7 +26,7 @@ export default function Footer() {
                  />
                </div>
                <span className="text-xl font-bold text-rl-navy dark:text-white">
-                 Lab Rangkaian Listrik
+                 Rangkaian Listrik
                </span>
             </div>
             
@@ -62,7 +62,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-3 text-gray-500 dark:text-gray-400">
                 <Mail className="w-5 h-5 text-rl-red shrink-0" />
-                <span className="text-sm">lab-rl@telkomuniversity.ac.id</span>
+                <span className="text-sm">labrangkaianlistrikte@gmail.com</span>
               </li>
             </ul>
           </div>

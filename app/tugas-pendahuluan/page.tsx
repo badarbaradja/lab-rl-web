@@ -2,25 +2,28 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { PenTool, Calendar, CheckCircle2, AlertCircle, Clock, Layers, Cpu } from "lucide-react";
+import { PenTool, Calendar, CheckCircle2, AlertCircle, Clock, Layers, Cpu, FileText } from "lucide-react"; // Tambah Icon FileText
 import { useLanguage } from "@/context/LanguageContext"; 
 
 // =================================================================================
-// 1. LINK DATABASE (MASUKKAN LINK DRIVE ANDA DI SINI SATU KALI SAJA)
+// 1. LINK DATABASE
 // =================================================================================
-// Format: [ID_MODUL]: "LINK_GDRIVE"
 const LINK_DATABASE: Record<number, string> = {
+  // --- TEMPLATE BUKU (BARU) ---
+  991: "https://drive.google.com/drive/folders/1cmfpDPsUrfQr5NV4coe04cb4ttrQw_Mi?usp=sharing", // <--- Masukkan Link Template FTE
+  992: "https://drive.google.com/drive/folders/1lYVKgl2qgwpDMKpA8vyQPTAIwsDrewpZ?usp=sharing",  // <--- Masukkan Link Template TE
+
   // --- FTE (101 - 106) ---
   101: "https://drive.google.com/drive/folders/1hzx3mqVHRh6fZUls5I1apWZRndMvleeS?usp=sharing", 
   102: "https://drive.google.com/drive/folders/1QeFfHHE2eNR7gNDg-hUH8vJLe6O2b_IA?usp=sharing",
-  103: "https://drive.google.com/drive/folders/16txQbAfO9cIM-0h5rnCCEK9pejqDxWaC?usp=sharing", // Masukkan link
-  104: "https://drive.google.com/drive/folders/1lJIe6Ljx_51MXUwHe1fzNENPqJwzN3QF?usp=sharing", // Masukkan link
-  105: "https://drive.google.com/drive/folders/1bl_rk2CltvYNlujENWkILZehvYn3gDiL?usp=sharing", // Masukkan link
-  106: "https://drive.google.com/drive/folders/1zSZi30aCbv4rTW6kke6GCnKnPLfv8JNV?usp=sharing", // Masukkan link
+  103: "https://drive.google.com/drive/folders/16txQbAfO9cIM-0h5rnCCEK9pejqDxWaC?usp=sharing",
+  104: "https://drive.google.com/drive/folders/1lJIe6Ljx_51MXUwHe1fzNENPqJwzN3QF?usp=sharing",
+  105: "https://drive.google.com/drive/folders/1bl_rk2CltvYNlujENWkILZehvYn3gDiL?usp=sharing",
+  106: "https://drive.google.com/drive/folders/1zSZi30aCbv4rTW6kke6GCnKnPLfv8JNV?usp=sharing",
 
   // --- TE (201 - 212) ---
   201: "https://drive.google.com/drive/folders/1yw6SN87KA5jIjAcZDO7wBel3euCMAZRH?usp=sharing",
-  202: "https://drive.google.com/drive/folders/1MIkNwt09xsQiW3NL6nzF7c6GuYwGdnu0?usp=sharing", // Masukkan link
+  202: "https://drive.google.com/drive/folders/1MIkNwt09xsQiW3NL6nzF7c6GuYwGdnu0?usp=sharing",
   203: "https://drive.google.com/drive/folders/1bC4OvS77wkWXZsq-3GbBYvQhHBEsSza9?usp=sharing",
   204: "https://drive.google.com/drive/folders/1ryEbmqTg-RD1OPpS1CEoel9NQV2GUUZW?usp=sharing",
   205: "https://drive.google.com/drive/folders/1qIHy1j8PBpXz2mVhBAZBxP3iOQSv6ZcV?usp=sharing",
@@ -34,11 +37,12 @@ const LINK_DATABASE: Record<number, string> = {
 };
 
 // =================================================================================
-// 2. DATA TERJEMAHAN (TEKS SAJA)
+// 2. DATA TERJEMAHAN
 // =================================================================================
 const tpData = {
   id: {
     FTE: [
+      { id: 991, week: "Persiapan", title: "Template Buku Tugas Pendahuluan", desc: "Format standar penulisan buku TP yang wajib digunakan.", status: "template" }, // NEW
       { id: 101, week: "Minggu 1 - 2", title: "Modul 1: Pengenalan, Pembacaan, dan Pengukuran Komponen", desc: "Multimeter, Resistor, Kapasitor, Induktor.", status: "done" },
       { id: 102, week: "Minggu 3 - 4", title: "Modul 2: Rangkaian Arus Searah", desc: "Mengukur arus, tegangan serta resistansi menggunakan multimeter.", status: "done" },
       { id: 103, week: "Minggu 5 - 6", title: "Modul 3: Teorema Thevenin dan Norton", desc: "Menentukan tegangan dan arus pada rangkaian pengganti Thevenin dan Norton.", status: "done" },
@@ -47,6 +51,7 @@ const tpData = {
       { id: 106, week: "Minggu 11 - 12", title: "Modul 6: Teorema Kutub Empat", desc: "Parameter Z, Y, H, dan Transmisi (ABCD).", status: "upcoming" },
     ],
     TE: [
+      { id: 992, week: "Persiapan", title: "Template Buku Tugas Pendahuluan", desc: "Format standar penulisan buku TP yang wajib digunakan.", status: "template" }, // NEW
       { id: 201, week: "Minggu 1", title: "Modul 1: Pembacaan dan Pengukuran Resistor", desc: "Multimeter, Resistor, Kapasitor, Induktor.", status: "done" },
       { id: 202, week: "Minggu 2", title: "Modul 2: Pengukuran Besaran Arus dan Tegangan", desc: "Mengoperasikan sumber tegangan DC dan multimeter.", status: "done" },
       { id: 203, week: "Minggu 3", title: "Modul 3: Pengenalan Aplikasi Circuit Simulator", desc: "Menggunakan aplikasi circuit simulator.", status: "done" },
@@ -61,6 +66,7 @@ const tpData = {
   },
   en: {
     FTE: [
+      { id: 991, week: "Preparation", title: "Preliminary Assignment Template", desc: "Standard format for the assignment book.", status: "template" },
       { id: 101, week: "Week 1 - 2", title: "Module 1: Introduction, Reading, and Measuring Components", desc: "Multimeter, Resistor, Capacitor, Inductor.", status: "done" },
       { id: 102, week: "Week 3 - 4", title: "Module 2: Direct Current Circuits", desc: "Measuring current, voltage, and resistance using a multimeter.", status: "done" },
       { id: 103, week: "Week 5 - 6", title: "Module 3: Thevenin and Norton Theorems", desc: "Determining voltage and current in Thevenin and Norton equivalent circuits.", status: "done" },
@@ -69,6 +75,7 @@ const tpData = {
       { id: 106, week: "Week 11 - 12", title: "Module 6: Two-Port Network Theorem", desc: "Z, Y, H, and Transmission (ABCD) Parameters.", status: "upcoming" },
     ],
     TE: [
+      { id: 992, week: "Preparation", title: "Preliminary Assignment Template", desc: "Standard format for the assignment book.", status: "template" },
       { id: 201, week: "Week 1", title: "Module 1: Resistor Reading and Measurement", desc: "Multimeter, Resistor, Capacitor, Inductor.", status: "done" },
       { id: 202, week: "Week 2", title: "Module 2: Current and Voltage Measurement", desc: "Operating DC voltage source and multimeter.", status: "done" },
       { id: 203, week: "Week 3", title: "Module 3: Introduction to Circuit Simulator App", desc: "Using circuit simulator applications.", status: "done" },
@@ -83,6 +90,7 @@ const tpData = {
   },
   ar: {
     FTE: [
+      { id: 991, week: "تحضير", title: "قالب كتاب الواجب الأولي", desc: "التنسيق القياسي لكتاب الواجب الأولي.", status: "template" },
       { id: 101, week: "الأسبوع 1 - 2", title: "الوحدة 1: مقدمة وقراءة وقياس المكونات", desc: "المقياس المتعدد، المقاومة، المكثف، المحث.", status: "done" },
       { id: 102, week: "الأسبوع 3 - 4", title: "الوحدة 2: دوائر التيار المستمر", desc: "قياس التيار والجهد والمقاومة باستخدام المقياس المتعدد.", status: "done" },
       { id: 103, week: "الأسبوع 5 - 6", title: "الوحدة 3: نظريات ثيفينين ونورتون", desc: "تحديد الجهد والتيار في الدوائر المكافئة لثيفينين ونورتون.", status: "done" },
@@ -91,6 +99,7 @@ const tpData = {
       { id: 106, week: "الأسبوع 11 - 12", title: "الوحدة 6: نظرية الشبكات ذات المنفذين", desc: "معلمات Z، Y، H، والإرسال (ABCD).", status: "upcoming" },
     ],
     TE: [
+      { id: 992, week: "تحضير", title: "قالب كتاب الواجب الأولي", desc: "التنسيق القياسي لكتاب الواجب الأولي.", status: "template" },
       { id: 201, week: "الأسبوع 1", title: "الوحدة 1: قراءة وقياس المقاومة", desc: "المقياس المتعدد، المقاومة، المكثف، المحث.", status: "done" },
       { id: 202, week: "الأسبوع 2", title: "الوحدة 2: قياس التيار والجهد", desc: "تشغيل مصدر الجهد المستمر والمقياس المتعدد.", status: "done" },
       { id: 203, week: "الأسبوع 3", title: "الوحدة 3: مقدمة لتطبيق محاكي الدوائر", desc: "استخدام تطبيقات محاكاة الدوائر.", status: "done" },
@@ -161,13 +170,20 @@ export default function TugasPendahuluanPage() {
                 className={`group relative bg-white dark:bg-white/5 border rounded-2xl p-6 transition-all duration-300 hover:shadow-lg ${
                     item.status === 'active' 
                     ? "border-rl-red/50 ring-1 ring-rl-red/20 shadow-[0_0_20px_rgba(211,17,69,0.1)]" 
+                    : item.status === 'template'
+                    ? "border-yellow-500/50 bg-yellow-50 dark:bg-yellow-900/10" // Style Khusus Template
                     : "border-gray-200 dark:border-white/10"
                 }`}
               >
                 {/* Badge Status */}
                 <div className="flex justify-between items-start mb-4">
-                    <span className="flex items-center gap-2 text-xs font-mono text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-white/10 px-3 py-1 rounded-full">
-                        <Calendar size={12} /> {item.week}
+                    <span className={`flex items-center gap-2 text-xs font-mono px-3 py-1 rounded-full ${
+                        item.status === 'template' 
+                        ? "text-yellow-700 bg-yellow-100 dark:text-yellow-400 dark:bg-yellow-900/30 font-bold"
+                        : "text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-white/10"
+                    }`}>
+                        {item.status === 'template' ? <FileText size={12} /> : <Calendar size={12} />} 
+                        {item.week}
                     </span>
                     
                     {item.status === 'done' && (
@@ -199,20 +215,21 @@ export default function TugasPendahuluanPage() {
                 
                 {/* Action Button dengan LINK DATABASE */}
                 <a 
-                    // AMBIL LINK DARI LINK_DATABASE MENGGUNAKAN ID
                     href={item.status === 'upcoming' ? undefined : LINK_DATABASE[item.id] || "#"}
                     target={item.status === 'upcoming' ? undefined : "_blank"}
                     rel="noopener noreferrer"
                     className={`w-full py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all ${
                         item.status === 'upcoming'
                         ? "bg-gray-100 text-gray-400 cursor-not-allowed pointer-events-none"
+                        : item.status === 'template'
+                        ? "bg-yellow-600 text-white hover:bg-yellow-700 shadow-lg hover:shadow-yellow-600/30" // Tombol Kuning untuk Template
                         : "bg-rl-navy text-white hover:bg-rl-red shadow-lg hover:shadow-rl-red/30 cursor-pointer"
                     }`}
                 >
                     {item.status === 'upcoming' ? (
                         <>{t.schedule_status_waiting}</>
                     ) : (
-                        <> <PenTool size={16} /> {lang === 'id' ? "Buka Folder TP" : lang === 'ar' ? "فتح مجلد الواجب" : "Open TP Folder"}</>
+                        <> <PenTool size={16} /> {lang === 'id' ? "Buka Link" : lang === 'ar' ? "فتح الرابط" : "Open Link"}</>
                     )}
                 </a>
               </motion.div>

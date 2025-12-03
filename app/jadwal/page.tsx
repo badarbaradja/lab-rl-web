@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Calendar, Clock, MapPin, AlertCircle, CheckCircle2, BookOpen, Presentation, Users, Layers, Cpu } from "lucide-react";
+import { Calendar, Clock, MapPin, AlertCircle, CheckCircle2, BookOpen, Presentation, Users, Layers, Cpu, Sparkles } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext"; // Import Hook Bahasa
 
 // --- TIPE DATA ---
@@ -23,7 +23,7 @@ export default function JadwalPage() {
   const eventsData = {
     id: {
       common: [
-        { id: 1, date: "1 - 2 September 2024", title: "TOT Eksternal Asisten", desc: "Training of Trainers untuk seluruh asisten laboratorium. Persiapan materi dan standar pengajaran.", status: "done", type: "Wajib" },
+        // "TOT Eksternal Asisten" DIHAPUS sesuai permintaan
         { id: 2, date: "9 September 2024", title: "Registrasi Praktikum", desc: "Pengambilan jadwal shift dan pembagian kelompok praktikan via Sealabs.", status: "done", type: "Event" }
       ],
       fte: [
@@ -33,6 +33,8 @@ export default function JadwalPage() {
         { id: 104, date: "Minggu 7 - 8", title: "Modul 4: Impedansi dan Fungsi Transfer", desc: "Definisi Impedansi dan Fungsi Transfer.", status: "done", type: "Praktikum" },
         { id: 105, date: "Minggu 9 - 10", title: "Modul 5: Resonansi", desc: "Rangkaian resonansi seri, paralel, dan seri paralel.", status: "active", type: "Praktikum" },
         { id: 106, date: "Minggu 11 - 12", title: "Modul 6: Teorema Kutub Empat", desc: "Parameter Z, Y, H, dan Transmisi (ABCD).", status: "upcoming", type: "Praktikum" },
+        // OPEN RECRUITMENT 2026 (FTE)
+        { id: 199, date: "Januari 2026", title: "Open Recruitment Asisten 2026", desc: "Pendaftaran calon asisten baru laboratorium periode 2026/2027.", status: "upcoming", type: "Recruitment" },
       ],
       te: [
         { id: 201, date: "Minggu 1", title: "Modul 1: Pembacaan dan Pengukuran Resistor", desc: "Multimeter, Resistor, Kapasitor, Induktor.", status: "done", type: "Praktikum" },
@@ -42,17 +44,18 @@ export default function JadwalPage() {
         { id: 205, date: "Minggu 5", title: "Modul 5: Teorema Thevenin, Norton, dan TDM", desc: "Tegangan dan arus pada rangkaian pengganti Thevenin dan Norton dan TDM.", status: "done", type: "Praktikum" },
         { id: 206, date: "Minggu 6", title: "Modul 6: Pengukuran Kapasitor dan Induktor pada Rangkaian AC", desc: "Menghitung nilai tegangan bolak-balik dari sumber AC menggunakan multimeter dan osiloskop.", status: "done", type: "Praktikum" },
         { id: 207, date: "Minggu 7", title: "Modul 7: Pengukuran Arus, Tegangan, dan Impedansi pada AC", desc: "Mengoperasikan alat ukur osiloskop dan function generator.", status: "done", type: "Praktikum" },
-        { id: 208, date: "Minggu 8", title: "Modul 8: Rangkaian Filter Sederhana RL dan RC", desc: "Perbedaan gelombang rangkaian differensiator dan integrator yang terjadi pada rangkaian RL dan RC.", status: "upcoming", type: "Praktikum" },
-        { id: 209, date: "Minggu 9", title: "Modul 9: Resonansi dan Pengukuran Bandwidth", desc: "Rangkaian resonansi seri, paralel dan seri paralel.", status: "active", type: "Praktikum" },
-        { id: 210, date: "Minggu 10", title: "Modul 10: Rangkaian Kutub Empat", desc: "Parameter Z, Y, H, dan Transmisi (ABCD).", status: "upcoming", type: "Praktikum" },
+        { id: 208, date: "Minggu 8", title: "Modul 8: Rangkaian Filter Sederhana RL dan RC", desc: "Perbedaan gelombang rangkaian differensiator dan integrator yang terjadi pada rangkaian RL dan RC.", status: "done", type: "Praktikum" },
+        { id: 209, date: "Minggu 9", title: "Modul 9: Resonansi dan Pengukuran Bandwidth", desc: "Rangkaian resonansi seri, paralel dan seri paralel.", status: "done", type: "Praktikum" },
+        { id: 210, date: "Minggu 10", title: "Modul 10: Rangkaian Kutub Empat", desc: "Parameter Z, Y, H, dan Transmisi (ABCD).", status: "active", type: "Praktikum" },
         { id: 211, date: "Minggu 11", title: "Asistensi Tugas Besar", desc: "Bimbingan intensif pengerjaan proyek akhir dengan asisten.", status: "upcoming", type: "Wajib" },
         { id: 212, date: "Minggu 12", title: "Final Presentasi Tubes", desc: "Demo alat dan presentasi hasil Tugas Besar di depan Dosen/Asisten.", status: "upcoming", type: "Final" },
+        // OPEN RECRUITMENT 2026 (TE)
+        { id: 299, date: "Januari 2026", title: "Open Recruitment Asisten 2026", desc: "Pendaftaran calon asisten baru laboratorium periode 2026/2027.", status: "upcoming", type: "Recruitment" },
       ]
     },
-    // --- TERJEMAHAN INGGRIS (Disesuaikan Maknanya) ---
+    // --- TERJEMAHAN INGGRIS ---
     en: {
       common: [
-        { id: 1, date: "Sep 1 - 2, 2024", title: "Assistant External TOT", desc: "Training of Trainers for all lab assistants. Preparation of materials and teaching standards.", status: "done", type: "Mandatory" },
         { id: 2, date: "Sep 9, 2024", title: "Practicum Registration", desc: "Shift scheduling and group division via Sealabs.", status: "done", type: "Event" }
       ],
       fte: [
@@ -62,6 +65,7 @@ export default function JadwalPage() {
         { id: 104, date: "Week 7 - 8", title: "Module 4: Impedance and Transfer Function", desc: "Definition of Impedance and Transfer Function.", status: "done", type: "Practicum" },
         { id: 105, date: "Week 9 - 10", title: "Module 5: Resonance", desc: "Series, parallel, and series-parallel resonance circuits.", status: "active", type: "Practicum" },
         { id: 106, date: "Week 11 - 12", title: "Module 6: Two-Port Network Theorem", desc: "Z, Y, H, and Transmission (ABCD) Parameters.", status: "upcoming", type: "Practicum" },
+        { id: 199, date: "January 2026", title: "Open Recruitment 2026", desc: "Registration for new lab assistants for 2026/2027 period.", status: "upcoming", type: "Recruitment" },
       ],
       te: [
         { id: 201, date: "Week 1", title: "Module 1: Resistor Reading and Measurement", desc: "Multimeter, Resistor, Capacitor, Inductor.", status: "done", type: "Practicum" },
@@ -71,17 +75,17 @@ export default function JadwalPage() {
         { id: 205, date: "Week 5", title: "Module 5: Thevenin, Norton, and Maximum Power Transfer", desc: "Voltage and current in Thevenin, Norton, and MPPT equivalent circuits.", status: "done", type: "Practicum" },
         { id: 206, date: "Week 6", title: "Module 6: Capacitor and Inductor Measurement in AC Circuits", desc: "Calculating AC voltage values from AC source using multimeter and oscilloscope.", status: "done", type: "Practicum" },
         { id: 207, date: "Week 7", title: "Module 7: AC Current, Voltage, and Impedance Measurement", desc: "Operating oscilloscope and function generator.", status: "done", type: "Practicum" },
-        { id: 208, date: "Week 8", title: "Module 8: Simple Filter Circuits on RL and RC Circuits", desc: "Wave differences in differentiator and integrator circuits occurring in RL and RC circuits.", status: "upcoming", type: "Practicum" },
-        { id: 209, date: "Week 9", title: "Module 9: Resonance and Bandwidth Measurement", desc: "Series, parallel, and series-parallel resonance circuits.", status: "active", type: "Practicum" },
-        { id: 210, date: "Week 10", title: "Module 10: Two-Port Networks", desc: "Z, Y, H, and Transmission (ABCD) Parameters.", status: "upcoming", type: "Practicum" },
+        { id: 208, date: "Week 8", title: "Module 8: Simple Filter Circuits on RL and RC Circuits", desc: "Wave differences in differentiator and integrator circuits occurring in RL and RC circuits.", status: "done", type: "Practicum" },
+        { id: 209, date: "Week 9", title: "Module 9: Resonance and Bandwidth Measurement", desc: "Series, parallel, and series-parallel resonance circuits.", status: "done", type: "Practicum" },
+        { id: 210, date: "Week 10", title: "Module 10: Two-Port Networks", desc: "Z, Y, H, and Transmission (ABCD) Parameters.", status: "active", type: "Practicum" },
         { id: 211, date: "Week 11", title: "Final Project Assistance", desc: "Intensive guidance for final project work with assistants.", status: "upcoming", type: "Mandatory" },
         { id: 212, date: "Week 12", title: "Final Presentation", desc: "Tool demo and final project presentation in front of Lecturer/Assistant.", status: "upcoming", type: "Final" },
+        { id: 299, date: "January 2026", title: "Open Recruitment 2026", desc: "Registration for new lab assistants for 2026/2027 period.", status: "upcoming", type: "Recruitment" },
       ]
     },
     // --- TERJEMAHAN ARAB ---
     ar: {
       common: [
-        { id: 1, date: "1 - 2 سبتمبر 2024", title: "تدريب المساعدين الخارجي", desc: "تدريب المدربين لجميع مساعدي المختبر. إعداد المواد ومعايير التدريس.", status: "done", type: "إلزامي" },
         { id: 2, date: "9 سبتمبر 2024", title: "تسجيل العملي", desc: "تحديد الجداول وتقسيم المجموعات عبر Sealabs.", status: "done", type: "حدث" }
       ],
       fte: [
@@ -91,6 +95,7 @@ export default function JadwalPage() {
         { id: 104, date: "الأسبوع 7 - 8", title: "الوحدة 4: المعاوقة ودالة التحويل", desc: "تعريف المعاوقة ودالة التحويل.", status: "done", type: "عملي" },
         { id: 105, date: "الأسبوع 9 - 10", title: "الوحدة 5: الرنين", desc: "دوائر الرنين المتسلسلة والمتوازية.", status: "active", type: "عملي" },
         { id: 106, date: "الأسبوع 11 - 12", title: "الوحدة 6: نظرية الشبكات ذات المنفذين", desc: "معلمات Z، Y، H، والإرسال (ABCD).", status: "upcoming", type: "عملي" },
+        { id: 199, date: "يناير 2026", title: "التوظيف المفتوح 2026", desc: "تسجيل المساعدين الجدد للمختبر لفترة 2026/2027.", status: "upcoming", type: "توظيف" },
       ],
       te: [
         { id: 201, date: "الأسبوع 1", title: "الوحدة 1: قراءة وقياس المقاومة", desc: "المقياس المتعدد، المقاومة، المكثف، المحث.", status: "done", type: "عملي" },
@@ -100,11 +105,12 @@ export default function JadwalPage() {
         { id: 205, date: "الأسبوع 5", title: "الوحدة 5: ثيفينين، نورتون، ونقل الطاقة القصوى", desc: "الجهد والتيار في الدوائر المكافئة لثيفينين ونورتون وTDM.", status: "done", type: "عملي" },
         { id: 206, date: "الأسبوع 6", title: "الوحدة 6: قياس المكثف والمحث في دوائر AC", desc: "حساب قيم الجهد المتردد من مصدر AC باستخدام المقياس المتعدد وراسم الذبذبات.", status: "done", type: "عملي" },
         { id: 207, date: "الأسبوع 7", title: "الوحدة 7: قياس التيار والجهد والمعاوقة في AC", desc: "تشغيل راسم الذبذبات ومولد الدوال.", status: "done", type: "عملي" },
-        { id: 208, date: "الأسبوع 8", title: "الوحدة 8: دوائر التصفية البسيطة في RL و RC", desc: "اختلافات موجة التفاضل والتكامل في دوائر RL و RC.", status: "upcoming", type: "عملي" },
-        { id: 209, date: "الأسبوع 9", title: "الوحدة 9: الرنين وقياس عرض النطاق", desc: "دوائر الرنين المتسلسلة والمتوازية.", status: "active", type: "عملي" },
-        { id: 210, date: "الأسبوع 10", title: "الوحدة 10: الشبكات ذات المنفذين", desc: "معلمات Z، Y، H، والإرسال (ABCD).", status: "upcoming", type: "عملي" },
+        { id: 208, date: "الأسبوع 8", title: "الوحدة 8: دوائر التصفية البسيطة في RL و RC", desc: "اختلافات موجة التفاضل والتكامل في دوائر RL و RC.", status: "done", type: "عملي" },
+        { id: 209, date: "الأسبوع 9", title: "الوحدة 9: الرنين وقياس عرض النطاق", desc: "دوائر الرنين المتسلسلة والمتوازية.", status: "done", type: "عملي" },
+        { id: 210, date: "الأسبوع 10", title: "الوحدة 10: الشبكات ذات المنفذين", desc: "معلمات Z، Y، H، والإرسال (ABCD).", status: "active", type: "عملي" },
         { id: 211, date: "الأسبوع 11", title: "مساعدة المشروع النهائي", desc: "توجيه مكثف للمشروع النهائي مع المساعدين.", status: "upcoming", type: "إلزامي" },
         { id: 212, date: "الأسبوع 12", title: "العرض النهائي", desc: "عرض الأدوات وتقديم المشروع النهائي أمام المحاضر/المساعد.", status: "upcoming", type: "نهائي" },
+        { id: 299, date: "يناير 2026", title: "التوظيف المفتوح 2026", desc: "تسجيل المساعدين الجدد للمختبر لفترة 2026/2027.", status: "upcoming", type: "توظيف" },
       ]
     }
   };
@@ -198,11 +204,14 @@ export default function JadwalPage() {
                     <div className={`p-6 rounded-2xl border transition-all duration-300 hover:scale-[1.02] ${
                         item.status === 'active' 
                           ? "bg-white dark:bg-rl-navy/20 border-rl-red/50 shadow-[0_0_30px_rgba(211,17,69,0.15)]" 
-                          : "bg-white dark:bg-white/5 border-gray-200 dark:border-white/10 hover:shadow-xl"
+                          : item.type === 'Recruitment' || item.type === 'توظيف' 
+                            ? "bg-white dark:bg-white/5 border-rl-red border-2 shadow-lg" // Highlight Recruitment
+                            : "bg-white dark:bg-white/5 border-gray-200 dark:border-white/10 hover:shadow-xl"
                     }`}>
                       {/* Header Card */}
                       <div className="flex justify-between items-start mb-3">
                           <span className={`px-3 py-1 rounded-full text-xs font-bold ${
+                              item.type === 'Recruitment' || item.type === 'توظيف' ? 'bg-red-100 text-red-600' :
                               item.type === 'Final' || item.type === 'نهائي' ? 'bg-purple-100 text-purple-600' :
                               item.type === 'Wajib' || item.type === 'Mandatory' || item.type === 'إلزامي' ? 'bg-yellow-100 text-yellow-700' :
                               item.type === 'Event' || item.type === 'حدث' ? 'bg-blue-100 text-blue-600' :
@@ -221,6 +230,11 @@ export default function JadwalPage() {
                                   <CheckCircle2 size={12} /> {t.schedule_status_done}
                                </span>
                           )}
+                          {item.type === 'Recruitment' || item.type === 'توظيف' ? (
+                               <span className="flex items-center gap-1 text-xs font-bold text-rl-red">
+                                  <Sparkles size={12} /> Special Event
+                               </span>
+                          ) : null}
                       </div>
 
                       <h3 className="text-xl font-bold text-rl-navy dark:text-white mb-2">{item.title}</h3>
@@ -245,10 +259,11 @@ export default function JadwalPage() {
                       rtl:md:right-1/2 rtl:md:translate-x-1/2
                   `}>
                       <div className={`w-full h-full rounded-full ${
+                          item.type === 'Recruitment' || item.type === 'توظيف' ? "bg-rl-red animate-bounce" :
                           item.status === 'active' ? "bg-rl-red animate-ping" : 
                           item.status === 'done' ? "bg-rl-navy" : "bg-gray-300"
                       }`} />
-                      {item.status === 'active' && (
+                      {(item.status === 'active' || item.type === 'Recruitment' || item.type === 'توظيف') && (
                           <div className="absolute inset-0 bg-rl-red rounded-full" />
                       )}
                   </div>

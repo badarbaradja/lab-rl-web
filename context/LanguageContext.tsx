@@ -58,7 +58,7 @@ const dictionary = {
     schedule_status_done: "SELESAI",
     schedule_status_active: "BERLANGSUNG",
     schedule_status_upcoming: "SEGERA",
-    schedule_status_waiting: "Belum Tersedia", // <--- INI YANG HILANG TADI
+    schedule_status_waiting: "Belum Tersedia",
 
     // --- HALAMAN MODUL ---
     module_title: "Repository Modul",
@@ -80,8 +80,6 @@ const dictionary = {
     rules_section_before: "Sebelum Praktikum",
     rules_section_during: "Selama Praktikum",
     rules_btn_open: "Buka Dokumen Lengkap (PDF)",
-    
-    // ISI TATA TERTIB
     rules_list_before: [
       "Datang tepat waktu (toleransi keterlambatan 15 menit).", 
       "Mengenakan seragam kuliah rapi & jas lab terkancing.", 
@@ -93,7 +91,13 @@ const dictionary = {
       "Menjaga kebersihan meja dan alat praktikum.", 
       "Dilarang memindahkan alat tanpa izin asisten.", 
       "HP harap disilent/dimatikan."
-    ]
+    ],
+
+    // --- HALAMAN VIDEO ---
+    video_title: "Video Pembelajaran",
+    video_desc: "Kumpulan video panduan praktikum dan materi Rangkaian Listrik untuk membantu pemahaman Anda.",
+    video_search: "Cari video...",
+    video_views: "x ditonton",
   },
   
   en: {
@@ -150,7 +154,7 @@ const dictionary = {
     schedule_status_done: "DONE",
     schedule_status_active: "ONGOING",
     schedule_status_upcoming: "UPCOMING",
-    schedule_status_waiting: "Not Available", // <--- FIX
+    schedule_status_waiting: "Not Available",
 
     // --- MODULE PAGE ---
     module_title: "Module Repository",
@@ -172,8 +176,6 @@ const dictionary = {
     rules_section_before: "Before Practicum",
     rules_section_during: "During Practicum",
     rules_btn_open: "Open Full Document (PDF)",
-
-    // ISI TATA TERTIB
     rules_list_before: [
       "Arrive on time (15 minutes late tolerance).", 
       "Wear neat college attire & buttoned lab coat.", 
@@ -185,7 +187,13 @@ const dictionary = {
       "Keep the table and practicum tools clean.", 
       "Do not move tools without assistant permission.", 
       "Mobile phones must be silenced/turned off."
-    ]
+    ],
+
+    // --- VIDEO PAGE ---
+    video_title: "Learning Videos",
+    video_desc: "Collection of practicum guides and Electrical Circuit materials to help your understanding.",
+    video_search: "Search video...",
+    video_views: "x views",
   },
 
   ar: {
@@ -242,7 +250,7 @@ const dictionary = {
     schedule_status_done: "مكتمل",
     schedule_status_active: "جارٍ",
     schedule_status_upcoming: "قادم",
-    schedule_status_waiting: "غير متاح", // <--- FIX
+    schedule_status_waiting: "غير متاح",
 
     // --- MODULE PAGE ---
     module_title: "مستودع الوحدات",
@@ -264,8 +272,6 @@ const dictionary = {
     rules_section_before: "قبل العملي",
     rules_section_during: "أثناء العملي",
     rules_btn_open: "فتح المستند الكامل (PDF)",
-
-    // ISI TATA TERTIB
     rules_list_before: [
       "الوصول في الوقت المحدد (سماح بالتأخير 15 دقيقة).", 
       "ارتداء ملابس جامعية أنيقة ومعطف مختبر بأزرار.", 
@@ -277,7 +283,13 @@ const dictionary = {
       "الحفاظ على نظافة الطاولة وأدوات العملي.", 
       "ممنوع نقل الأدوات دون إذن المساعد.", 
       "يجب صمت/إيقاف تشغيل الهواتف المحمولة."
-    ]
+    ],
+
+    // --- VIDEO PAGE ---
+    video_title: "فيديوهات تعليمية",
+    video_desc: "مجموعة من أدلة العملي ومواد الدوائر الكهربائية لمساعدتك في الفهم.",
+    video_search: "بحث عن فيديو...",
+    video_views: "مشاهدة",
   }
 };
 
@@ -286,7 +298,7 @@ type LangKey = "id" | "en" | "ar";
 type LanguageContextType = {
   lang: LangKey;
   setLang: (lang: LangKey) => void;
-  t: typeof dictionary["id"]; // Tipe datanya mengikuti struktur ID
+  t: typeof dictionary["id"];
 };
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
@@ -294,7 +306,6 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [lang, setLang] = useState<LangKey>("id");
 
-  // Efek RTL untuk Bahasa Arab
   useEffect(() => {
     if (lang === "ar") {
       document.documentElement.dir = "rtl";
@@ -312,7 +323,6 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-// Hook Custom biar gampang dipanggil
 export function useLanguage() {
   const context = useContext(LanguageContext);
   if (!context) {
