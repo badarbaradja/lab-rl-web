@@ -1,7 +1,7 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextResponse } from "next/server";
 
-// Ambil Key dari Server Environment (Lebih Aman)
+// Ambil Key dari Server Environment
 const API_KEY = process.env.GEMINI_API_KEY;
 
 const SYSTEM_PROMPT = `
@@ -29,24 +29,43 @@ Jawablah dengan bahasa Indonesia yang santai tapi sopan.
 
 export async function POST(req: Request) {
   try {
-    const { message } = await req.json();
-
+    // 1. Cek API Key
     if (!API_KEY) {
-      return NextResponse.json({ error: "API Key not configured" }, { status: 500 });
+      console.error("API Key not found in environment variables");
+      return NextResponse.json(
+        { error: "API Key not configured properly on server" }, 
+        { status: 500 }
+      );
     }
 
+    // 2. Parse Request Body dengan aman
+    const body = await req.json();
+    const { message } = body;
+
+    if (!message) {
+      return NextResponse.json(
+        { error: "Message is required" }, 
+        { status: 400 }
+      );
+    }
+
+    // 3. Inisialisasi Google AI
     const genAI = new GoogleGenerativeAI(API_KEY);
     const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
+    // 4. Generate Content
     const prompt = `${SYSTEM_PROMPT}\n\nUser: ${message}\nAssistant:`;
-    
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const text = response.text();
 
     return NextResponse.json({ text });
-  } catch (error) {
-    console.error("Backend AI Error:", error);
-    return NextResponse.json({ error: "Failed to fetch response" }, { status: 500 });
+
+  } catch (error: any) {
+    console.error("Backend AI Error Details:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch AI response", details: error.message }, 
+      { status: 500 }
+    );
   }
 }
