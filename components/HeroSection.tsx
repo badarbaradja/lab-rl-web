@@ -27,17 +27,17 @@ const SCHEDULE_DATA_TE = [
 
 const SCHEDULE_DATA_FTE = [
   { week: 1, title: "Pembacaan dan Pengukuran Resistor", code: "Modul 01" },
-  { week: 2, title: "Pengukuran Besaran Arus dan Tegangan", code: "Modul 02" },
-  { week: 3, title: "Pengenalan Aplikasi Circuit Simulator", code: "Modul 03" },
-  { week: 4, title: "Teorema Substitusi dan Superposisi", code: "Modul 04" },
-  { week: 5, title: "Resonansi dan Pengukuran Bandwidth", code: "Modul 05" },
-  { week: 6, title: "Pengukuran Kapasitor dan Induktor (AC)", code: "Modul 06" },
-  { week: 7, title: "Pengukuran Arus, Tegangan, Impedansi (AC)", code: "Modul 07" },
-  { week: 8, title: "Rangkaian Filter Sederhana RL & RC", code: "Modul 08" },
-  { week: 9, title: "Teorema Thevenin, Norton, dan TDM", code: "Modul 09" },
-  { week: 10, title: "Rangkaian Kutub Empat", code: "Modul 10" },
-  { week: 11, title: "Asistensi Tugas Besar", code: "Minggu Tenang" },
-  { week: 12, title: "Final Presentasi", code: "Tugas Besar" },
+  { week: 2, title: "Pembacaan dan Pengukuran Resistor", code: "Modul 01" },
+  { week: 3, title: "Pengukuran Besaran Arus dan Tegangan", code: "Modul 02" },
+  { week: 4, title: "Pengukuran Besaran Arus dan Tegangan", code: "Modul 02" },
+  { week: 5, title: "Pengenalan Aplikasi Circuit Simulator", code: "Modul 03" },
+  { week: 6, title: "Pengenalan Aplikasi Circuit Simulator", code: "Modul 03" },
+  { week: 7, title: "Teorema Substitusi dan Superposisi", code: "Modul 04" },
+  { week: 8, title: "Teorema Substitusi dan Superposisi", code: "Modul 04" },
+  { week: 9, title: "Resonansi", code: "Modul 05" },
+  { week: 10, title: "Resonansi", code: "Modul 05" },
+  { week: 11, title: "Teorema 4 Kutub", code: "Modul 06" },
+  { week: 12, title: "Teorema 4 Kutub", code: "Modul 06" },
 ];
 
 export default function HeroSection() {

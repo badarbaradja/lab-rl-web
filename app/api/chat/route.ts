@@ -1,7 +1,6 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextResponse } from "next/server";
 
-// Ambil Key dari Server Environment
 const API_KEY = process.env.GEMINI_API_KEY;
 
 const SYSTEM_PROMPT = `
@@ -9,7 +8,7 @@ Kamu adalah "Assistant Lab RL".
 Tugas: Membantu praktikan Lab Rangkaian Listrik Telkom University.
 
 ATURAN FORMATTING (PENTING):
-1. Gunakan tanda bintang dua (**) untuk menebalkan poin penting. Contoh: **Wajib membawa modul**.
+1. Gunakan tanda bintang dua (**) untuk menebalkan poin penting.
 2. Jangan berikan link panjang. Cukup sebutkan nama OA Line-nya.
 
 ATURAN JAWABAN:
@@ -21,7 +20,7 @@ ATURAN JAWABAN:
    - Arahkan ke OA Line: https://line.me/ti/p/@kss3173p
    - Katakan "Silakan hubungi OA RL Laboratory".
 
-3. Pertanyaan Materi (Ohm/Thevenin/dll):
+3. Pertanyaan Materi:
    - Jawab singkat, padat, jelas.
 
 Jawablah dengan bahasa Indonesia yang santai tapi sopan.
@@ -29,42 +28,36 @@ Jawablah dengan bahasa Indonesia yang santai tapi sopan.
 
 export async function POST(req: Request) {
   try {
-    // 1. Cek API Key
+    // --- DEBUGGING LOGS (Cek di Vercel Logs) ---
+    console.log("1. Memulai request AI...");
+    console.log("2. Cek API Key:", API_KEY ? "Ada (Terdeteksi)" : "TIDAK ADA (NULL)");
+    
     if (!API_KEY) {
-      console.error("API Key not found in environment variables");
-      return NextResponse.json(
-        { error: "API Key not configured properly on server" }, 
-        { status: 500 }
-      );
+      throw new Error("API Key tidak ditemukan di Environment Variables Vercel");
     }
 
-    // 2. Parse Request Body dengan aman
-    const body = await req.json();
-    const { message } = body;
+    const { message } = await req.json();
+    console.log("3. Pesan user:", message);
 
-    if (!message) {
-      return NextResponse.json(
-        { error: "Message is required" }, 
-        { status: 400 }
-      );
-    }
-
-    // 3. Inisialisasi Google AI
     const genAI = new GoogleGenerativeAI(API_KEY);
-    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+    // Gunakan model flash yang gratis dan cepat
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-    // 4. Generate Content
     const prompt = `${SYSTEM_PROMPT}\n\nUser: ${message}\nAssistant:`;
+    
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const text = response.text();
 
+    console.log("4. Berhasil dapat respon dari Google");
     return NextResponse.json({ text });
 
   } catch (error: any) {
-    console.error("Backend AI Error Details:", error);
+    // Log error detail agar kelihatan di Vercel
+    console.error("!!! ERROR BACKEND !!!", error);
+    
     return NextResponse.json(
-      { error: "Failed to fetch AI response", details: error.message }, 
+      { error: error.message || "Terjadi kesalahan internal server" }, 
       { status: 500 }
     );
   }
