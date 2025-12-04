@@ -1,63 +1,57 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextResponse } from "next/server";
 
-const API_KEY = process.env.GEMINI_API_KEY;
-
-const SYSTEM_PROMPT = `
-Kamu adalah "Assistant Lab RL".
-Tugas: Membantu praktikan Lab Rangkaian Listrik Telkom University.
-
-ATURAN FORMATTING (PENTING):
-1. Gunakan tanda bintang dua (**) untuk menebalkan poin penting.
-2. Jangan berikan link panjang. Cukup sebutkan nama OA Line-nya.
-
-ATURAN JAWABAN:
-1. IZIN (Sakit/Hadir/5K):
-   - Arahkan ke OA Line: https://line.me/ti/p/@jit0659i
-   - Katakan "Silakan lapor ke OA Sealabs".
-
-2. KOMPLAIN NILAI:
-   - Arahkan ke OA Line: https://line.me/ti/p/@kss3173p
-   - Katakan "Silakan hubungi OA RL Laboratory".
-
-3. Pertanyaan Materi:
-   - Jawab singkat, padat, jelas.
-
-Jawablah dengan bahasa Indonesia yang santai tapi sopan.
-`;
-
 export async function POST(req: Request) {
   try {
-    // --- DEBUGGING LOGS (Cek di Vercel Logs) ---
-    console.log("1. Memulai request AI...");
-    console.log("2. Cek API Key:", API_KEY ? "Ada (Terdeteksi)" : "TIDAK ADA (NULL)");
-    
-    if (!API_KEY) {
-      throw new Error("API Key tidak ditemukan di Environment Variables Vercel");
+    // 1. CEK API KEY (Debug Log)
+    const apiKey = process.env.GEMINI_API_KEY;
+    console.log("--- DEBUG START ---");
+    console.log("API Key Status:", apiKey ? "✅ Terdeteksi" : "❌ KOSONG/NULL");
+
+    if (!apiKey) {
+      return NextResponse.json(
+        { error: "FATAL: API Key tidak terbaca oleh Vercel. Pastikan nama variabel 'GEMINI_API_KEY' benar." }, 
+        { status: 500 }
+      );
     }
 
-    const { message } = await req.json();
-    console.log("3. Pesan user:", message);
+    // 2. CEK REQUEST BODY
+    const body = await req.json();
+    const { message } = body;
+    console.log("Pesan User:", message);
 
-    const genAI = new GoogleGenerativeAI(API_KEY);
-    // Gunakan model flash yang gratis dan cepat
+    if (!message) {
+      return NextResponse.json({ error: "Pesan user kosong" }, { status: 400 });
+    }
+
+    // 3. INISIALISASI GOOGLE AI
+    const genAI = new GoogleGenerativeAI(apiKey);
+    
+    // PENTING: Gunakan 'gemini-1.5-flash' (Paling stabil & gratis)
+    // Jangan gunakan '2.5' atau nama aneh lain karena akan menyebabkan crash 500.
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-    const prompt = `${SYSTEM_PROMPT}\n\nUser: ${message}\nAssistant:`;
+    // 4. KIRIM KE GOOGLE
+    const systemPrompt = `Kamu adalah Assistant Lab RL. Jawab singkat dan jelas.`;
+    const prompt = `${systemPrompt}\n\nUser: ${message}\nAssistant:`;
     
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const text = response.text();
 
-    console.log("4. Berhasil dapat respon dari Google");
+    console.log("Respon sukses:", text.slice(0, 20) + "...");
     return NextResponse.json({ text });
 
   } catch (error: any) {
-    // Log error detail agar kelihatan di Vercel
-    console.error("!!! ERROR BACKEND !!!", error);
+    console.error("!!! ERROR DETECTED !!!", error);
     
+    // INI KUNCINYA: Kirim pesan error asli ke browser agar Anda bisa baca
     return NextResponse.json(
-      { error: error.message || "Terjadi kesalahan internal server" }, 
+      { 
+        error: "Terjadi Error di Server", 
+        details: error.message, // Pesan error asli dari Google/Server
+        type: error.name 
+      }, 
       { status: 500 }
     );
   }
