@@ -41,7 +41,7 @@ const assistants = [
   { name: "Muhammad Raffi Ibrahim", code: "MRA", role: "HARDWARE", line: "raffi560", instagram: "muhrafibr" },
   { name: "Daffa Aryaputra ", code: "DAR", role: "HARDWARE", line: "daffaarya437", instagram: "daryutra_fxs24" },
   { name: "Arria Brata Sena Majid Budiyanto ", code: "SEN", role: "HARDWARE", line: "arrsky", instagram: "arriabs_" },
-  { name: "Tasha airyn", code: "Ryn", role: "RND", line: "caratland", instagram: "airynatasha" },
+  { name: "Tasha airyn", code: "RYN", role: "RND", line: "caratland", instagram: "airynatasha" },
   { name: "Nisrina Putri Nadhira ", code: "RIN", role: "RND", line: "pocky55ba7", instagram: "mainlydeara" },
   { name: "Abdurrasyid Ridho", code: "ARD", role: "RND", line: "@ridhoavs", instagram: "aabdridho" },
   { name: "Zahra Ramadhina ", code: "ZAR", role: "RND", line: "zhrxwyt ", instagram: "zhrxwyt " },

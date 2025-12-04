@@ -6,9 +6,9 @@ import { Camera } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext"; 
 
 const photos = [
-  "/img/gallery/1.jpg",
-  "/img/gallery/2.jpg",
-  "/img/gallery/3.jpg",
+  "/img/gallery/1.JPG",
+  "/img/gallery/2.JPG",
+  "/img/gallery/3.JPG",
   "/img/gallery/4.jpg", 
   "/img/gallery/5.jpg",
   "/img/gallery/6.jpg",
