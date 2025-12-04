@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/providers/ThemeProvider";
 import Navbar from "@/components/Navbar"; 
 import ChatWidget from "@/components/ChatWidget";
 import { LanguageProvider } from "@/context/LanguageContext"; 
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -19,9 +20,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="id" suppressHydrationWarning>
-      <body className={inter.className}>
+      {/* TAMBAHKAN CLASS 'overflow-x-hidden' DI SINI 
+         Ini akan menghilangkan scrollbar bawah di seluruh website
+      */}
+      <body className={`${inter.className} overflow-x-hidden antialiased selection:bg-rl-red selection:text-white`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <LanguageProvider> {/* <--- BUNGKUS DENGAN PROVIDER INI */}
+          <LanguageProvider>
             <Navbar />
             {children}
             <ChatWidget />
@@ -29,6 +33,5 @@ export default function RootLayout({
         </ThemeProvider>    
       </body>
     </html>
-    
   );
 }

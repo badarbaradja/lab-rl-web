@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MessageSquare, X, Send, Bot, Sparkles, Loader2, ExternalLink } from "lucide-react";
+import { usePathname } from "next/navigation"; // <--- 1. Import ini
 
 type Message = {
   id: number;
@@ -11,12 +12,13 @@ type Message = {
 };
 
 export default function ChatWidget() {
+  const pathname = usePathname(); // <--- 2. Ambil path url
   const [isOpen, setIsOpen] = useState(false);
   const [inputText, setInputText] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   
   const [messages, setMessages] = useState<Message[]>([
-    { id: 1, text: "Halo! 👋 Saya Assistant Lab RL. Ada yang bisa dibantu?", sender: "bot" }
+    { id: 1, text: "Halo! 👋 Saya adalah EREL, Asisten AI Lab Rangkaian Listrik. Ada yang bisa dibantu?", sender: "bot" }
   ]);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -29,6 +31,12 @@ export default function ChatWidget() {
     scrollToBottom();
   }, [messages, isTyping, isOpen]);
 
+  // --- 3. LOGIKA SEMBUNYIKAN CHATBOT DI SIPAL ---
+  if (pathname?.startsWith("/sipal-secure-access")) {
+    return null;
+  }
+  // ---------------------------------------------
+
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!inputText.trim()) return;
@@ -39,7 +47,6 @@ export default function ChatWidget() {
     setIsTyping(true);
 
     try {
-      // PANGGIL API ROUTE KITA SENDIRI (Bukan Google langsung)
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -47,7 +54,6 @@ export default function ChatWidget() {
       });
 
       const data = await response.json();
-
       if (!response.ok) throw new Error("Gagal mengambil respon");
 
       const botMsg: Message = { id: Date.now() + 1, text: data.text, sender: "bot" };
@@ -55,7 +61,6 @@ export default function ChatWidget() {
 
     } catch (error) {
       console.error(error);
-      // Fallback Logic
       let fallbackText = "Maaf, koneksi terganggu.";
       const lower = userMsg.text.toLowerCase();
       
@@ -71,52 +76,26 @@ export default function ChatWidget() {
     }
   };
 
-  // --- FUNGSI PARSER (AGAR TEKS RAPIH) ---
+  // Render text helper (Sama seperti sebelumnya)
   const renderFormattedText = (text: string) => {
     const sealabsRegex = /https:\/\/line\.me\/ti\/p\/@sealabs/g;
     const rlRegex = /https:\/\/line\.me\/ti\/p\/@rl-laboratory/g;
 
     return text.split('\n').map((line, lineIndex) => {
       if (!line.trim()) return <br key={lineIndex} />;
-
       const words = line.split(" ");
       return (
         <p key={lineIndex} className="mb-1 last:mb-0">
           {words.map((word, wordIndex) => {
-            // Cek Bold
             if (word.startsWith("**") && word.endsWith("**")) {
                 return <span key={wordIndex} className="font-bold text-rl-navy dark:text-white">{word.slice(2, -2)} </span>;
             }
-
-            // Cek Link Sealabs
             if (word.match(sealabsRegex)) {
-                return (
-                    <a key={wordIndex} href="https://line.me/ti/p/@jit0659i" target="_blank" rel="noopener noreferrer" 
-                       className="inline-flex items-center gap-1 bg-[#06C755] text-white px-2 py-0.5 rounded-md text-xs font-bold hover:bg-[#05a546] mx-1 transition-transform hover:scale-105">
-                       <ExternalLink size={10} /> Chat Sealabs
-                    </a>
-                );
+                return <a key={wordIndex} href="https://line.me/ti/p/@jit0659i" target="_blank" className="text-blue-500 hover:underline">Chat Sealabs</a>;
             }
-
-            // Cek Link RL Lab
             if (word.match(rlRegex)) {
-                return (
-                    <a key={wordIndex} href="https://line.me/ti/p/@kss3173p" target="_blank" rel="noopener noreferrer"
-                       className="inline-flex items-center gap-1 bg-rl-navy text-white px-2 py-0.5 rounded-md text-xs font-bold hover:bg-blue-900 mx-1 transition-transform hover:scale-105">
-                       <ExternalLink size={10} /> Chat Admin RL
-                    </a>
-                );
+                return <a key={wordIndex} href="https://line.me/ti/p/@kss3173p" target="_blank" className="text-blue-500 hover:underline">Chat Admin RL</a>;
             }
-
-            // Handle multi-word bold simple
-            const parts = word.split(/(\*\*.*?\*\*)/g);
-            if(parts.length > 1){
-                return parts.map((part, pIdx) => {
-                    if(part.startsWith("**") && part.endsWith("**")) return <strong key={`${wordIndex}-${pIdx}`}>{part.slice(2, -2)}</strong>;
-                    return part;
-                });
-            }
-
             return word + " ";
           })}
         </p>
@@ -134,7 +113,6 @@ export default function ChatWidget() {
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
             className="mb-4 w-[350px] md:w-[400px] bg-white dark:bg-[#0F172A] border border-gray-200 dark:border-white/10 rounded-2xl shadow-2xl overflow-hidden flex flex-col"
           >
-            {/* Header */}
             <div className="bg-gradient-to-r from-rl-navy to-blue-900 p-4 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="relative">
@@ -153,7 +131,6 @@ export default function ChatWidget() {
               </button>
             </div>
 
-            {/* Chat Body */}
             <div className="p-4 h-[350px] bg-gray-50 dark:bg-black/20 overflow-y-auto space-y-4 custom-scrollbar">
                 {messages.map((msg) => (
                   <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
@@ -171,7 +148,6 @@ export default function ChatWidget() {
                     </div>
                   </div>
                 ))}
-                
                 {isTyping && (
                   <div className="flex justify-start items-center">
                     <div className="w-8 h-8 rounded-full bg-rl-navy/10 dark:bg-white/10 flex items-center justify-center mr-2">
@@ -187,14 +163,13 @@ export default function ChatWidget() {
                 <div ref={messagesEndRef} />
             </div>
 
-            {/* Input Footer */}
             <div className="p-3 border-t border-gray-200 dark:border-white/10 bg-white dark:bg-[#0F172A]">
                 <form className="flex gap-2 items-center" onSubmit={handleSend}>
                     <input 
                         value={inputText}
                         onChange={(e) => setInputText(e.target.value)}
                         type="text" 
-                        placeholder="Tanya tentang modul, izin, nilai..."
+                        placeholder="Tanya EREL..."
                         disabled={isTyping}
                         className="flex-1 px-4 py-2.5 bg-gray-100 dark:bg-white/5 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-rl-navy/50 dark:focus:ring-blue-500/50 dark:text-white transition-all disabled:opacity-50"
                     />

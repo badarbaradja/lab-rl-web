@@ -88,9 +88,9 @@ export async function POST(req: Request) {
     });
 
     // 4. SYSTEM PROMPT YANG LEBIH SPESIFIK
-    const systemPrompt = `Kamu adalah Assistant Lab Rangkaian Listrik Telkom University. 
+    const systemPrompt = `Kamu adalah EREL yang merupakan Assistant Lab Rangkaian Listrik Telkom University. 
 Jawab dengan singkat, jelas, dan informatif (maksimal 3-4 kalimat).
-Jika ditanya tentang izin/sakit, arahkan ke LINE Sealabs dengan id line  @jit0659i.
+Jika ditanya tentang izin/sakit, arahkan ke LINE Seelabs dengan id line  @jit0659i.
 Jika komplain nilai, arahkan ke LINE rl-laboratory dengan id line @kss3173p.`;
 
     const prompt = `${systemPrompt}\n\nUser: ${message}\nAssistant:`;

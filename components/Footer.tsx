@@ -2,11 +2,18 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Mail, MapPin, Instagram, Linkedin, Youtube } from "lucide-react";
-import { useLanguage } from "@/context/LanguageContext"; // Import Hook Bahasa
+import { usePathname } from "next/navigation";
+import { Mail, MapPin, Instagram, Linkedin, Youtube, Lock } from "lucide-react"; // Tambahkan icon Lock
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function Footer() {
-  const { t } = useLanguage(); // Ambil kamus bahasa (t)
+  const { t } = useLanguage();
+  const pathname = usePathname();
+
+  // Sembunyikan Footer jika sedang berada di dalam Dashboard Asisten
+  if (pathname?.startsWith("/sipal-secure-access")) {
+    return null;
+  }
 
   return (
     <footer className="bg-white dark:bg-black border-t border-gray-200 dark:border-white/10 transition-colors duration-300 pt-16 pb-8">
@@ -16,7 +23,6 @@ export default function Footer() {
           {/* Brand Info */}
           <div className="space-y-4 col-span-1 md:col-span-2">
             <div className="flex items-center gap-3">
-               {/* Logo dengan Background Putih agar terlihat di Dark Mode */}
                <div className="relative w-12 h-12 bg-white rounded-lg p-1 shadow-sm">
                  <Image 
                     src="/img/logo-rl.png" 
@@ -30,7 +36,6 @@ export default function Footer() {
                </span>
             </div>
             
-            {/* Deskripsi Dinamis */}
             <p className="text-gray-500 dark:text-gray-400 max-w-sm leading-relaxed text-sm">
               {t.footer_desc} 
             </p>
@@ -39,26 +44,38 @@ export default function Footer() {
           {/* Quick Links */}
           <div>
             <h4 className="font-bold text-rl-navy dark:text-white mb-6">
-                {t.footer_menu} {/* Judul Menu Dinamis */}
+                {t.footer_menu}
             </h4>
             <ul className="space-y-3">
-              {/* Menu Links Dinamis */}
               <li><Link href="/modul" className="footer-link">{t.nav_modul}</Link></li>
               <li><Link href="/jadwal" className="footer-link">{t.nav_jadwal}</Link></li>
               <li><Link href="/asisten" className="footer-link">{t.nav_asisten}</Link></li>
               <li><Link href="/tata-tertib" className="footer-link">{t.menu_tata_tertib}</Link></li>
+              
+              {/* --- LINK AKSES SIPAL (ASISTEN) --- */}
+              <li className="pt-4 border-t border-dashed border-gray-200 dark:border-white/10 mt-2">
+                <Link 
+                  href="/sipal-secure-access" 
+                  className="flex items-center gap-2 text-xs font-bold text-gray-400 hover:text-rl-red transition-colors group"
+                >
+                  <Lock size={12} className="group-hover:text-rl-red transition-colors" />
+                  <span>SIPAL Access</span>
+                </Link>
+              </li>
+              {/* ---------------------------------- */}
+
             </ul>
           </div>
-
+          
           {/* Contact */}
           <div>
             <h4 className="font-bold text-rl-navy dark:text-white mb-6">
-                {t.footer_contact} {/* Judul Kontak Dinamis */}
+                {t.footer_contact}
             </h4>
             <ul className="space-y-4">
               <li className="flex items-start gap-3 text-gray-500 dark:text-gray-400">
                 <MapPin className="w-5 h-5 text-rl-red shrink-0" />
-                <span className="text-sm">{t.footer_address}</span> {/* Alamat Dinamis */}
+                <span className="text-sm">{t.footer_address}</span>
               </li>
               <li className="flex items-center gap-3 text-gray-500 dark:text-gray-400">
                 <Mail className="w-5 h-5 text-rl-red shrink-0" />
@@ -71,7 +88,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-gray-200 dark:border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-gray-500">
-            {t.footer_rights} {/* Copyright Dinamis */}
+            {t.footer_rights}
           </p>
           
           <div className="flex gap-4">
@@ -88,7 +105,6 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Styles Helper */}
       <style jsx>{`
         .footer-link {
             @apply text-gray-500 dark:text-gray-400 hover:text-rl-red transition-colors text-sm;

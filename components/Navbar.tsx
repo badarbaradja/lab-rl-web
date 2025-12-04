@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import { motion, AnimatePresence } from "framer-motion";
-import { Moon, Sun, Globe, ChevronDown, ShieldCheck } from "lucide-react";
+import { Moon, Sun, Globe, ChevronDown } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { useLanguage } from "@/context/LanguageContext";
@@ -29,10 +29,17 @@ export default function Navbar() {
 
   if (!mounted) return null;
   
-  // Sembunyikan Navbar di halaman login atau admin
-  if (pathname === "/login" || pathname?.startsWith("/admin")) {
+  // --- PERBAIKAN DI SINI ---
+  // Sembunyikan Navbar di halaman login, admin, atau dashboard asisten (sipal)
+  // Kondisi digabung agar lebih rapi dan tidak error sintaks
+  if (
+    pathname === "/login" || 
+    pathname?.startsWith("/admin") || 
+    pathname?.startsWith("/sipal-secure-access")
+  ) {
     return null;
   }
+  // -------------------------
 
   return (
     <motion.nav
